@@ -5,7 +5,91 @@ class RecipeCard extends HTMLElement {
   // the element is written into the DOM directly as <recipe-card>
   constructor() {
     super(); // Inheret everything from HTMLElement
-
+    let shadowEL = this.attachShadow({mode:'open'});
+    
+    this.articleEL = document.createElement('article');
+    let styleEL = document.createElement("style");
+    styleEL.innerHTML = `
+    * {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+  
+    a {
+      text-decoration: none;
+    }
+  
+    a:hover {
+      text-decoration: underline;
+    }
+  
+    article {
+      align-items: center;
+      border: 1px solid rgb(223, 225, 229);
+      border-radius: 8px;
+      display: grid;
+      grid-template-rows: 118px 56px 14px 18px 15px 36px;
+      height: auto;
+      row-gap: 5px;
+      padding: 0 16px 16px 16px;
+      width: 178px;
+    }
+  
+    div.rating {
+      align-items: center;
+      column-gap: 5px;
+      display: flex;
+    }
+  
+    div.rating>img {
+      height: auto;
+      display: inline-block;
+      object-fit: scale-down;
+      width: 78px;
+    }
+  
+    article>img {
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      height: 118px;
+      object-fit: cover;
+      margin-left: -16px;
+      width: calc(100% + 32px);
+    }
+  
+    p.ingredients {
+      height: 32px;
+      line-height: 16px;
+      padding-top: 4px;
+      overflow: hidden;
+    }
+  
+    p.organization {
+      color: black !important;
+    }
+  
+    p.title {
+      display: -webkit-box;
+      font-size: 16px;
+      height: 36px;
+      line-height: 18px;
+      overflow: hidden;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+  
+    p:not(.title),
+    span,
+    time {
+      color: #70757A;
+      font-size: 12px;
+    }`;
+    shadowEL.append(this.articleEL);
+    
+    shadowEL.append(styleEL);
+    
+    
     // EXPOSE - START (All expose numbers start with A)
     // A1. TODO - Attach the shadow DOM to this Web Component (leave the mode open)
     // A2. TODO - Create an <article> element - This will hold our markup once our data is set
@@ -38,7 +122,33 @@ class RecipeCard extends HTMLElement {
   set data(data) {
     // If nothing was passed in, return
     if (!data) return;
+    let article = this.articleEL;
+    let isrc = data['imgSrc'];
+    let ialt = data['imgAlt'];
+    let tlnk=data['titleLnk'];
+    let ttxt=data['titleTxt'];
+    let org=data['organization'];
+    let rat=data['rating'];
+    let numrata=data['numRatings'];
+    let lentime=data['lengthTime'];
+    let ingr=data['ingredients'];
+    article.innerHTML =`
+    <img src="`+isrc+`"alt="`+ialt+`">
 
+    <p class="title">
+      <a href="`+tlnk+`">`+ttxt+`</a>
+    </p>
+    <p class="organization">`+org+`</p>
+    <div class="rating">
+      <span>5</span>
+      <img src="/assets/images/icons/`+rat+`-star.svg" alt="`+rat+` stars">
+      <span>(`+numrata+`)</span>
+    </div>
+    <time>`+lentime+`</time>
+    <p class="ingredients">
+      `+ingr+`
+    </p>`;
+    //console.log(this.innerHTML);
     // A6. TODO - Select the <article> we added to the Shadow DOM in the constructor
     // A7. TODO - Set the contents of the <article> with the <article> template given in
     //           cardTemplate.html and the data passed in (You should only have one <article>,
@@ -49,3 +159,4 @@ class RecipeCard extends HTMLElement {
 
 // A8. TODO - Define the Class as a customElement so that you can create
 //           'recipe-card' elements
+customElements.define('recipe-card',RecipeCard);
