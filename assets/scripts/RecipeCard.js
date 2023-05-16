@@ -140,8 +140,8 @@ class RecipeCard extends HTMLElement {
     </p>
     <p class="organization">`+org+`</p>
     <div class="rating">
-      <span>5</span>
-      <img src="/assets/images/icons/`+rat+`-star.svg" alt="`+rat+` stars">
+      <span>`+rat+`</span>
+      <img src="https://raw.githubusercontent.com/vdvo1029/Lab6_Starter/main/assets/images/icons/`+rat+`-star.svg" alt="`+rat+` stars">
       <span>(`+numrata+`)</span>
     </div>
     <time>`+lentime+`</time>
